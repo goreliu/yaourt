@@ -9,6 +9,10 @@ load_lib pkgbuild
 # Get sources in current dir
 # Usage abs_get_pkgbuild ($repo/$pkg[,$arch,[$pkgbase]])
 abs_get_pkgbuild() {
+	cd ..
+	asp checkout "$3"
+	return
+
 	local repo=${1%/*} pkg=${1#*/} arch=$2 pkgbase=$3 pkgver= url=
 
 	if [[ ! $arch || ! $pkgbase ]]; then
@@ -78,7 +82,7 @@ fetch_pkgs_repo_up_list() {
 	# `pacman -Spu` fails in some cases (e.g: when a package is replaced
 	# by another one)
 	if pacman_parse -Sp --noconfirm --print-format "## %n" $_arg \
-		    "${PACMAN_S_ARG[@]}" "${pkg_up[@]}" >"$YAOURTTMPDIR/sysupgrade"; then
+			"${PACMAN_S_ARG[@]}" "${pkg_up[@]}" >"$YAOURTTMPDIR/sysupgrade"; then
 		packages=($(sed -n 's/^## \(.*\)/\1/p' "$YAOURTTMPDIR/sysupgrade" | sort))
 		rm "$YAOURTTMPDIR/sysupgrade"
 		[[ $packages ]] && upgrade_needed=1 || { upgrade_needed=0; return 0; }
@@ -152,7 +156,7 @@ format_update() {
 
 	longestpkg=(0 0)
 	local pkgname repo rversion lversion pkgdesc \
-	      pkgver lrel rrel lver rver
+		  pkgver lrel rrel lver rver
 
 	while read pkgname repo rversion lversion pkgdesc; do
 		printf -v pkgdesc "%q" "$pkgdesc"
@@ -167,7 +171,7 @@ format_update() {
 				# new release not a new version
 				newrelease+=("1 $repo $pkgname $pkgver $lrel $rrel $pkgdesc")
 			else
-		        # new version
+				# new version
 				newversion+=("2 $repo $pkgname $pkgver $rversion - $pkgdesc")
 			fi
 		else
