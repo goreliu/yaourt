@@ -1,6 +1,6 @@
 # yaourt: pacman frontend
 
-VERSION       = $(shell git describe --abbrev=4)
+VERSION       = $(shell git rev-parse --short HEAD)
 DESTDIR       =
 PREFIX        = /usr/local
 SHELL         = /bin/bash

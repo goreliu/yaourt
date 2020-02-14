@@ -57,7 +57,7 @@ info_from_aur() {
 	local pkgbase=${pkgbuild_url#*/snapshot/}; pkgbase=${pkgbase%.tar.gz}
 	pkgbuild_url="${pkgbuild_url%/snapshot/*}/plain/PKGBUILD?h=$pkgbase"
 	curl_fetch -fis "$pkgbuild_url" -o "$tmpfile" || \
-		{ error $(_gettext '%s not found in AUR.' "$pkgname"); return 1; }
+		{ error $(_gettext '%s not found in AUR.' "$pkgname"); rm "$tmpfile"; return 1; }
 	local vars=(arch groups depends depends_$CARCH optdepends optdepends_$CARCH
 		provides provides_$CARCH conflicts conflicts_$CARCH replaces replaces_$CARCH)
 
