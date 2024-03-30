@@ -9,8 +9,9 @@ load_lib pkgbuild
 # Get sources in current dir
 # Usage abs_get_pkgbuild ($repo/$pkg[,$arch,[$pkgbase]])
 abs_get_pkgbuild() {
-	cd ..
-	asp checkout "$3"
+	git clone https://gitlab.archlinux.org/archlinux/packaging/packages/"$3" .
+	# cd ..
+	# pkgctl repo clone --protocol=https "$3"
 	return
 
 	local repo=${1%/*} pkg=${1#*/} arch=$2 pkgbase=$3 pkgver= url=
